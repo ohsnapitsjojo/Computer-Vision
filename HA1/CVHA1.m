@@ -17,10 +17,10 @@
     Image = imread('szene.jpg');
     IGray = rgb_to_gray(Image);
     [Fx, Fy] = sobel_xy(IGray);
-    imshow(Fx + Fy);
+    %imshow(Fx + Fy);
  
 
 %% Harris-Merkmale berechnen
-%  tic;
-%  Merkmale = harris_detektor(IGray,'do_plot',true);
-%  toc;
+    tic;
+    Merkmale = harris_detektor(IGray,'do_plot',false ,'tau', 8000000, 'segment_length', 5 );
+    toc;
