@@ -22,5 +22,5 @@
 
 %% Harris-Merkmale berechnen
     tic;
-    Merkmale = harris_detektor(IGray,'do_plot',false ,'tau', 8000000, 'segment_length', 5 );
+    Merkmale = harris_detektor(IGray,'do_plot',true ,'tau', 9000, 'segment_length', 5 );
     toc;

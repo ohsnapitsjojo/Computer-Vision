@@ -13,8 +13,11 @@ function  [Merkmale] = harris_detektor(Image,varargin)
 
     defaultSegmentLength = 5;
     defaultK = 0.05;
-    defaultTau = 8000000;
+    defaultTau = 9000;
     defaultPlot = false;
+    defaultMinDist = 10;
+    defaultTileSize = [200 200];
+    defaultN = 5;
     
     % Liste der notwendigen Parameter
     % Ein Bild als Input ist zwingend notwendig
@@ -24,6 +27,10 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     P.addOptional('k', defaultK, @(x)isnumeric(x));
     P.addOptional('tau', defaultTau, @(x)isnumeric(x)); 
     P.addOptional('do_plot', defaultPlot, @(x)islogical(x));
+    P.addOptional('min_dist', defaultMinDist, @(x)isnumeric(x)); 
+    P.addOptional('tile_size', defaultTileSize, @(x)isnumeric(x)); 
+    P.addOptional('N', defaultN, @(x)isnumeric(x)); 
+    
     % Parsen der Eingabewerte
     P.parse(Image,varargin{:});
     
@@ -33,6 +40,9 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     k = P.Results.k;
     tau = P.Results.tau;
     plot = P.Results.do_plot;
+    minDist = P.Results.min_dist;
+    tileSize = P.Results.tile_size;
+    N = P.Results.N;
     
 %% Harris Detektor
 
@@ -50,7 +60,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     
     % Berechnung einer Hilfsmatrix um die Harris-Matrix mithilfe von
     % Faltung zu errechnen
-    f = ones(segmentLength);    
+    f = fspecial('gaussian', segmentLength, 0.5);    
     
     % Ränder werden durch Spiegelung behandelt, hierzu muss die
     % Spiegelweite berechnet werden
@@ -72,18 +82,41 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     G12 = G12(1+mirrorRange*2:end-mirrorRange*2, 1+mirrorRange*2:end-mirrorRange*2);
     G22 = G22(1+mirrorRange*2:end-mirrorRange*2, 1+mirrorRange*2:end-mirrorRange*2);
     
-    % Response wird berechnet
+    % Referenzwert wird berechnet
     H = (G11.*G22-G12.*G12) - k*(G11+G22).^2;
 
     % Kanten werden anhand der Response detektiert und ausgefiltert
     featureMatrix = H > tau;
-    [r,c] = find(featureMatrix==1);
-    Merkmale = [r,c];
+    featureMatrix = H.*featureMatrix;
+    
+    [r,c,v] = find(featureMatrix);
+    Merkmale = [r,c,v];
+    Merkmale = sortrows(Merkmale,-3);
+    
+    [R,C] = meshgrid(1:nCols, 1:nRows);
+    
+    
+    for i=1:size(Merkmale,1)
+     
+        mask = sqrt((R-Merkmale(i,1)).^2 + (C-Merkmale(i,2)).^2) < minDist;
+        featureMatrix = featureMatrix & mask;
+
+        [r,c,v] = find(featureMatrix);
+        Merkmale = [r,c,v];
+        Merkmale = sortrows(Merkmale,-3);
+        
+        if size(Merkmale,1) == i
+            break
+        end
+    end
+    
+    Merkmale(:,3) = [];
+    Merkmale = Merkmale';
     
     % Plot
     if plot == true
         imshow(Image);
         hold on;
-        scatter(Merkmale(:,2), Merkmale(:,1));
+        scatter(Merkmale(2,:), Merkmale(1,:));
     end
 end
