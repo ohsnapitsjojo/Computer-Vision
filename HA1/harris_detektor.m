@@ -76,21 +76,16 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     mirrorRange = (segmentLength-1)/2;
     
     % Spiegelung der Elemente am Rand
-    fx2 = padarray(fx2,[mirrorRange mirrorRange],'circular'); 
-    fy2 = padarray(fy2,[mirrorRange mirrorRange],'circular'); 
-    fxy = padarray(fxy,[mirrorRange mirrorRange],'circular'); 
+    fx2 = padarray(fx2,[mirrorRange mirrorRange],'symmetric'); 
+    fy2 = padarray(fy2,[mirrorRange mirrorRange],'symmetric'); 
+    fxy = padarray(fxy,[mirrorRange mirrorRange],'symmetric'); 
     
     % Berechnung der Elemente der Harris-Matrix
-    G11 = conv2(f,fx2);
-    G12 = conv2(f,fxy);
-    G22 = conv2(f,fy2);
+    G11 = conv2(fx2,f,'valid');
+    G12 = conv2(fxy,f,'valid');
+    G22 = conv2(fy2,f,'valid');
     
-    % Resizing, da die ebenfalls Harris-Matrizen für die Spiegelungen
-    % berechnet wurden
-    G11 = G11(1+mirrorRange*2:end-mirrorRange*2, 1+mirrorRange*2:end-mirrorRange*2);
-    G12 = G12(1+mirrorRange*2:end-mirrorRange*2, 1+mirrorRange*2:end-mirrorRange*2);
-    G22 = G22(1+mirrorRange*2:end-mirrorRange*2, 1+mirrorRange*2:end-mirrorRange*2);
-    
+
     % Response wird berechnet
     H = (G11.*G22-G12.*G12) - k*(G11+G22).^2;
 

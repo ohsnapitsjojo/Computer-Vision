@@ -19,15 +19,12 @@ function [Fx,Fy] = sobel_xy(Image)
           -1, -2, -1];
     
     % Randbehandlung erfolgt mittels Spiegelung des Bilder am Rand
-    Image = padarray(Image,[1 1],'circular'); 
+    Image = padarray(Image,[1 1],'symmetric'); 
           
     % Sobel-Filterung durch Faltung
-    Fx = uint8(conv2(double(sx), double(Image),'full'));
-    Fy = uint8(conv2(double(sy), double(Image),'full'));
+    Fx = uint8(conv2(double(Image), double(sx),'valid'));
+    Fy = uint8(conv2(double(Image), double(sy),'valid'));
     
-    % Resizen, da die Spiegelung ebenfalls gefiltert wurde und nun
-    % abgeschnitten werden muss
-    Fx = Fx(3:end-2, 3:end-2);
-    Fy = Fy(3:end-2, 3:end-2);
+
 end
 

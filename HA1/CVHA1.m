@@ -1,5 +1,6 @@
-%  Gruppennummer:
-%  Gruppenmitglieder:
+%  Gruppennummer: 15
+%  Gruppenmitglieder: Johannes Truong Le, Bernhard Birkner, Tuan Duong
+%  Quang, Sebastian Betz, Huaijiang Zhu
 
 %% Hausaufgabe 1
 %  Einlesen und Konvertieren von Bildern sowie Bestimmung von 
@@ -17,7 +18,7 @@
     Image = imread('szene.jpg');
     IGray = rgb_to_gray(Image);
     [Fx, Fy] = sobel_xy(IGray);
-    %imshow(Fx + Fy);
+    imshow(Fx + Fy);
  
 
 %% Harris-Merkmale berechnen
