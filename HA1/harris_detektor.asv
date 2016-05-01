@@ -15,7 +15,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     defaultK = 0.05;
     defaultTau = 9000;
     defaultPlot = false;
-    defaultMinDist = 50;
+    defaultMinDist = 200;
     defaultTileSize = [200 200];
     defaultN = 5;
     
@@ -134,19 +134,16 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     
     for i=1:size(featureCells,1)
         for j=1:size(featureCells,2)
-
-            nFeature = length(find(featureCells{i,j}~=0));
+            currentBlock = featureCells{i,j};
+            nFeature = length(find(currentBlock==true));
             if nFeature>N
                 nDeleteFeature = nFeature-N;
                 for k=1:nDeleteFeature
-                    [rs, cs] = find(featureCells{i,j} == min(featureCells{i,j}(featureCells{i,j}>0 )));
-                    featureCells{i,j}(rs(1),cs(1)) = 0;
+                    [rs, rc] = find(currentBlock, )
                 end
             end
         end
     end
-    
-    featureMatrix = cell2mat(featureCells);
     
     [r,c] = find(featureMatrix);
     Merkmale = [r,c]';
