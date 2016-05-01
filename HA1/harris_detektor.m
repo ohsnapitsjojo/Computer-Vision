@@ -13,11 +13,11 @@ function  [Merkmale] = harris_detektor(Image,varargin)
 
     defaultSegmentLength = 5;
     defaultK = 0.05;
-    defaultTau = 11000;
+    defaultTau = 9500;
     defaultPlot = false;
     defaultMinDist = 50;
     defaultTileSize = [200 200];
-    defaultN = 5;
+    defaultN = 10;
     
     % Liste der notwendigen Parameter
     % Ein Bild als Input ist zwingend notwendig
