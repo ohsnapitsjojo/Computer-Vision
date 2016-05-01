@@ -99,7 +99,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     featureMatrix = H.*featureMatrix;
     
     % Featurevector wird nach Größe des Responses sortiert um anschließend
-    % Nachbarn um die größten Werte zu entfernen
+    % Nachbarn mit der Distanz<minDist zu entfernen
     [r,c,v] = find(featureMatrix);
     Merkmale = [r,c,v];
     Merkmale = sortrows(Merkmale,-3);
@@ -107,7 +107,15 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     [C,R] = meshgrid(1:nCols, 1:nRows);
     
     i = 1;
+    
+    % Nahe Nachbarn werden mithilfe einer Maske entfernt, die Maske ist ein
+    % Kreis mit 1er um den gewünschten Punkt mit r = minDist. Diese wird im
+    % Anschluss negierte und mit dem AND Operator auf die Feauture Matrix
+    % angewendet um die Nachbarn zu entfernen.
+    % Es wird angefangen  die Nachbarn der Feature mit dem größten Response
+    % zu entfernen.
     while 1
+
         mask = sqrt((R-Merkmale(i,1)).^2 + (C-Merkmale(i,2)).^2) < minDist;
         mask(Merkmale(i,1),Merkmale(i,2)) = 0;
         
@@ -124,9 +132,10 @@ function  [Merkmale] = harris_detektor(Image,varargin)
          i = i + 1;
     end
     
-    Merkmale(:,3) = [];
-    Merkmale = Merkmale';
-
+    % Feature Matrix wird in Zellen unterteilt um anschließend nur N
+    % Features in einer Zelle zu erreichen. Die schwächsten Feature werden
+    % zuerst entfernt
+    
     row_vector = [rowDist*ones(1, floor(size(featureMatrix,1)/rowDist)), mod(size(featureMatrix,1), rowDist)];
     col_vector = [colDist*ones(1, floor(size(featureMatrix,2)/colDist)), mod(size(featureMatrix,2), colDist)];
     

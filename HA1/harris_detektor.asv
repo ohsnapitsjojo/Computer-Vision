@@ -15,7 +15,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     defaultK = 0.05;
     defaultTau = 9000;
     defaultPlot = false;
-    defaultMinDist = 200;
+    defaultMinDist = 50;
     defaultTileSize = [200 200];
     defaultN = 5;
     
@@ -99,7 +99,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     featureMatrix = H.*featureMatrix;
     
     % Featurevector wird nach Größe des Responses sortiert um anschließend
-    % Nachbarn um die größten Werte zu entfernen
+    % Nachbarn mit der Distanz<minDist zu entfernen
     [r,c,v] = find(featureMatrix);
     Merkmale = [r,c,v];
     Merkmale = sortrows(Merkmale,-3);
@@ -107,7 +107,11 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     [C,R] = meshgrid(1:nCols, 1:nRows);
     
     i = 1;
+    
+    % Nahe Nachbarn werden mithilfe einer Maske entfernt, die Maske ist ein
+    % Kreis
     while 1
+
         mask = sqrt((R-Merkmale(i,1)).^2 + (C-Merkmale(i,2)).^2) < minDist;
         mask(Merkmale(i,1),Merkmale(i,2)) = 0;
         
@@ -134,16 +138,19 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     
     for i=1:size(featureCells,1)
         for j=1:size(featureCells,2)
-            currentBlock = featureCells{i,j};
-            nFeature = length(find(currentBlock==true));
+
+            nFeature = length(find(featureCells{i,j}~=0));
             if nFeature>N
                 nDeleteFeature = nFeature-N;
                 for k=1:nDeleteFeature
-                    [rs, rc] = find(currentBlock, )
+                    [rs, cs] = find(featureCells{i,j} == min(featureCells{i,j}(featureCells{i,j}>0 )));
+                    featureCells{i,j}(rs(1),cs(1)) = 0;
                 end
             end
         end
     end
+    
+    featureMatrix = cell2mat(featureCells);
     
     [r,c] = find(featureMatrix);
     Merkmale = [r,c]';
