@@ -13,7 +13,7 @@ function  [Merkmale] = harris_detektor(Image,varargin)
 
     defaultSegmentLength = 5;
     defaultK = 0.05;
-    defaultTau = 9000;
+    defaultTau = 11000;
     defaultPlot = false;
     defaultMinDist = 50;
     defaultTileSize = [200 200];
@@ -160,12 +160,12 @@ function  [Merkmale] = harris_detektor(Image,varargin)
     [r,c] = find(featureMatrix);
     Merkmale = [r,c]';
 
-
+    disp([num2str(length(Merkmale)),' Features found.']);
     
     % Plot
     if plot == true
         imshow(Image);
         hold on;
-        scatter(Merkmale(2,:), Merkmale(1,:));
+        scatter(Merkmale(2,:), Merkmale(1,:), 'xy');
     end
 end
