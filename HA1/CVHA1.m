@@ -18,7 +18,6 @@
     Image = imread('szene.jpg');
     IGray = rgb_to_gray(Image);
     [Fx, Fy] = sobel_xy(IGray);
-    imshow(Fx + Fy);
  
 
 %% Harris-Merkmale berechnen
