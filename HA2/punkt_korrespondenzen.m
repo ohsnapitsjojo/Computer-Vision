@@ -6,20 +6,23 @@ function [Korrespondenzen] = punkt_korrespondenzen(I1,I2,Mpt1,Mpt2,varargin)
 %% Input parser
  P = inputParser;
 
-    defaultMinCorr = 0.90;
-    defaultWindowLength = 9;
+    defaultMinCorr = 0.98;
+    defaultWindowLength = 11;
     
     % Liste der notwendigen Parameter
     % Ein Bild als Input ist zwingend notwendig
     P.addOptional('min_corr', defaultMinCorr, @(x)isnumeric(x));
     P.addOptional('window_length',defaultWindowLength, @(x) x > 1 && (mod(x,2)));
-    
+    P.addOptional('do_plot', false, @islogical);
+
     % Parsen der Eingabewerte
     P.parse(varargin{:});
     
     % Laden der Werte des Input Parsers in Variablen
     min_corr = P.Results.min_corr;
     window_length = P.Results.window_length;
+    plot = P.Results.do_plot;
+
     
 %% Initialisierung von Variablen     
     N = window_length*window_length;
@@ -43,8 +46,9 @@ function [Korrespondenzen] = punkt_korrespondenzen(I1,I2,Mpt1,Mpt2,varargin)
     I2_norm = V_no_mean/V_sigma;
     
     for i=1:n_W
-        x = Mpt1(1,i);
-        y = Mpt1(2,i);
+        x = Mpt1(2,i);
+        y = Mpt1(1,i);
+        
         x_up = x + window_length_2;
         y_up = y + window_length_2;
         x_down = x - window_length_2;
@@ -59,8 +63,8 @@ function [Korrespondenzen] = punkt_korrespondenzen(I1,I2,Mpt1,Mpt2,varargin)
     end
     
     for i=1:n_V
-        x = Mpt2(1,i);
-        y = Mpt2(2,i);
+        x = Mpt2(2,i);
+        y = Mpt2(1,i);
         x_up = x + window_length_2;
         y_up = y + window_length_2;
         x_down = x - window_length_2;
@@ -87,13 +91,13 @@ function [Korrespondenzen] = punkt_korrespondenzen(I1,I2,Mpt1,Mpt2,varargin)
     match1 = Mpt1(:,ind1)';
     match2 = Mpt2(:,I(ind2))';
     
-    match1 = fliplr(match1);
-    match2 = fliplr(match2);
 
-    figure; ax = axes;
-    showMatchedFeatures(I1,I2,match1, match2,'montage','Parent', ax);
-    title(ax, 'Candidate point matches');
-    legend(ax, 'Matched points 1','Matched points 2');
+    if plot
+        figure; ax = axes;
+        showMatchedFeatures(I1,I2,match1, match2,'montage','Parent', ax);
+        title(ax, 'Candidate point matches');
+        legend(ax, 'Matched points 1','Matched points 2');
+    end
 end
 
 
