@@ -32,10 +32,11 @@ disp(['Es wurden ' num2str(size(Korrespondenzen,2)) ' Korrespondenzpunktpaare in
 
 
 %% Finde robuste Korrespondenzpunktpaare mit Hilfe des RANSAC-Algorithmus 
-% Korrespondenzen_robust = F_ransac(Korrespondenzen);
+Korrespondenzen_robust = F_ransac(Korrespondenzen);
 
 
 %% Berechnung der Essentiellen Matrix
-% load('K.mat');
-% E = achtpunktalgorithmus(Korrespondenzen_robust,K);
+load('K.mat');
+E = achtpunktalgorithmus(Korrespondenzen_robust,K);
 
+disp(E);

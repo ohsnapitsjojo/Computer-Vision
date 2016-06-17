@@ -57,6 +57,6 @@ for i=1:s
     
 end
 
-Korrespondenzen_robust = consensus;
+Korrespondenzen_robust = consensu
 
 end
