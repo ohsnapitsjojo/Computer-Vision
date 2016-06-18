@@ -8,7 +8,14 @@ function [EF] = achtpunktalgorithmus(Korrespondenzen, K)
     x2 = [ Korrespondenzen(3:4,:); ones(1, nKP)];
     
     A = kron(x1,x2)';
-    A = A(1:nKP:end,:);
+
+    
+    for i=1:nKP
+        idx = (i-1)*nKP+i;
+        A(i,:) = A(idx,:);
+    end
+    
+    A = A(1:nKP,:);
     
     [U,S,V] = svd(A); 
     
@@ -19,8 +26,10 @@ function [EF] = achtpunktalgorithmus(Korrespondenzen, K)
     EF = UG*[1,0,0;0,1,0;0,0,0]*VG';
     
 if nargin == 2
-    iK = inv(K);
-    EF = iK'*EF*iK;
+ %  EF = UG*[SG(1,1),0,0;0,SG(2,2),0;0,0,0]*VG';
+
+     iK = inv(K);
+     EF = iK'*EF*iK;
 end
 
 end
