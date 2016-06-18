@@ -6,9 +6,9 @@ function [Korrespondenzen_robust] = F_ransac(Korrespondenzen,varargin)
 P = inputParser;
 
 
-P.addOptional('epsilon', 0.6, @isnumeric);
+P.addOptional('epsilon', 0.65, @isnumeric);
 P.addOptional('p', 0.99, @isnumeric);
-P.addOptional('tolerance',1500, @isnumeric);
+P.addOptional('tolerance',10, @isnumeric);
 
 % Gewichtung für das Harris-Kriterium
 
