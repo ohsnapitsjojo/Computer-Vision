@@ -26,10 +26,8 @@ function [EF] = achtpunktalgorithmus(Korrespondenzen, K)
     EF = UG*[1,0,0;0,1,0;0,0,0]*VG';
     
 if nargin == 2
- %  EF = UG*[SG(1,1),0,0;0,SG(2,2),0;0,0,0]*VG';
 
-     iK = inv(K);
-     EF = iK'*EF*iK;
+    EF = K'*EF*K;
 end
 
 end

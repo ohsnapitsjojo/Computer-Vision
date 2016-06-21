@@ -25,8 +25,7 @@ k = 8;
 
 s = ceil(log(1-p)/(log(1-(1-epsilon)^k)));
 
-e = [0;0;1];
-eDach = skewdec(3,e);
+eDach = [0 -1 0 ; 1 0 0 ; 0 0 0 ];
 
 nKP = size(Korrespondenzen,2);
 x1 = [ Korrespondenzen(1:2,:); ones(1, nKP)];
@@ -36,21 +35,19 @@ maxNRKP = 0;
 
 for i=1:s
     idx = randperm( nKP, k);
-    E = achtpunktalgorithmus(Korrespondenzen(:,idx));
+    F = achtpunktalgorithmus(Korrespondenzen(:,idx));
     
-    z = diag((x2'*E*x1).^2);
-    e1 = eDach*E;
-    e2 = E*eDach;
-    n1 = norm(e1*x1);
-    n2 = norm(x2'*e2);
+    z = diag((x2'*F*x1).^2);
+
+    n1 = sum((eDach*F*x1).^2);
+    n2 = sum((x2'*F*eDach)'.^2);
     
-    dSamps = z/(n1+n2);
+    dSamps = z'./(n1+n2);
     idx = dSamps < tolerance;
     tmpConsensus = Korrespondenzen(:,find(idx==1));  
     nRKP = size(tmpConsensus,2);
     
     if maxNRKP < nRKP
-        finalE = E;
         maxNRKP = nRKP;
         consensus = tmpConsensus;
     end
