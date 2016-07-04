@@ -63,11 +63,11 @@ disp(E);
 [T1,R1,T2,R2] = TR_aus_E(E);
 [T,R,lambdas,P1] = rekonstruktion(T1,T2,R1,R2,Korrespondenzen_robust,K);
 
-% figure; 
-% scatter3(P1(:,1), P1(:,2), P1(:,3) );
-% hold on;
+figure; 
+scatter3(P1(:,1), P1(:,2), P1(:,3) );
+hold on;
 
 %% Berechnung des mittleren Rückprojektionsfehlers auf der Bildebene von Kamera 2
-repro_error = rueckprojektion(Korrespondenzen_robust, P1, IGray2, T, R, K);
+%repro_error = rueckprojektion(Korrespondenzen_robust, P1, IGray2, T, R, K);
 
 

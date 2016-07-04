@@ -1,15 +1,23 @@
 function [ M ] = calculateM2( x1, x2, T, R )
 %CALCULATEM Summary of this function goes here
 %   Detailed explanation goes here
+%CALCULATEM Summary of this function goes here
+%   Detailed explanation goes here
     nKP = size(x1,2);
-    T = T * ones(1,nKP);
+    M = zeros(3*nKP, nKP+1);
     
-    diag = dot(x1,R'*x2);
+    for i = 1:nKP
+        
+        idxL = (i-1)*3 + 1;
+        idxU = idxL+2;
+        x1_ = x1(:,i);
+        x2_ = x2(:,i);
+        [E, L] = calcMElement(x1_,x2_,T,R,2);
+        M(idxL:idxU,i) =  E;
+        M(idxL:idxU,end) = L;
+        
+    end
     
-    M = eye(nKP);
-    idx = find( M == 1);
-    M(idx) = diag;
-    M(:,end+1) = -dot(x1,R'*T)';
-    
+   
 end
 
