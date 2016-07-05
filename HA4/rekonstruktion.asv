@@ -7,12 +7,12 @@ function [T,R, lambdas, P1] = rekonstruktion(T1,T2,R1,R2, Korrespondenzen, K)
     nPos = zeros(4,1);
     Ts = cell(4,1);
     Rs = cell(4,1);
-    s = zeros(4,2);
+    s = zer
     
     x1 = K\x1;
     x2 = K\x2;
     
-    [ lambda{1,1}, lambda{1,2} ] = calculateLambda(x1,x2,T1,R1);
+    [ lambda{1,1}, lambda{1,2}, s1, s2 ] = calculateLambda(x1,x2,T1,R1);
     [ lambda{2,1}, lambda{2,2} ] = calculateLambda(x1,x2,T1,R2);
     [ lambda{3,1}, lambda{3,2} ] = calculateLambda(x1,x2,T2,R1);
     [ lambda{4,1}, lambda{4,2} ] = calculateLambda(x1,x2,T2,R2);
@@ -29,13 +29,10 @@ function [T,R, lambdas, P1] = rekonstruktion(T1,T2,R1,R2, Korrespondenzen, K)
     
     [M, idx] = max(nPos);
     
-
-    
-    lambdas = [lambda{idx,1}, lambda{idx,2}];
-    T = Ts{idx}*lambdas(idx,end);
+    T = Ts{idx};
     R = Rs{idx};
     
-    lambdas = lambdas(:,end-1);
+    lambdas = [lambda{idx,1}, lambda{idx,2}];
     l1 = lambda{idx,1};
     
     P1 = [l1, l1, l1].*x1';
