@@ -7,7 +7,7 @@ function [Korrespondenzen] = punkt_korrespondenzen(I1,I2,Mpt1,Mpt2,varargin)
  P = inputParser;
 
     defaultMinCorr = 0.98;
-    defaultWindowLength = 11;
+    defaultWindowLength = 33;
     
     % Liste der notwendigen Parameter
     % Ein Bild als Input ist zwingend notwendig
