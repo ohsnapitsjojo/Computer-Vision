@@ -12,6 +12,9 @@ function [ lambda1, lambda2 ] = calculateLambda(x1, x2, T, R  )
     lambda1 = V1(:,end);
     lambda2 = V2(:,end);
     
+    lambda1 = lambda1/lambda1(end);
+    lambda2 = lambda2/lambda2(end);
+    
     
     lambda1 = lambda1(1:nKP);
     lambda2 = lambda2(1:nKP);

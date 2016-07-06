@@ -32,12 +32,25 @@ function [T,R, lambdas, P1] = rekonstruktion(T1,T2,R1,R2, Korrespondenzen, K)
 
     
     lambdas = [lambda{idx,1}, lambda{idx,2}];
-    T = Ts{idx}*lambdas(idx,end);
+    T = Ts{idx};
     R = Rs{idx};
     
-    lambdas = lambdas(:,end-1);
     l1 = lambda{idx,1};
     
     P1 = [l1, l1, l1].*x1';
+    camCorners = [3000, 3000, 0, 0, 3000,;
+              2000,  0, 0, 2000, 2000;
+              1,1,1,1           ,1];
+          
+    camCorners = K\camCorners;
+    camCorners2 = (R*camCorners + [T,T,T,T,T]);
+    
+    figure; 
+    plotPoints(P1);
+    hold on;
+    plotCamera(camCorners, 'Camera1');
+    plotCamera(camCorners2, 'Camera2');
+    
+
     
 end
