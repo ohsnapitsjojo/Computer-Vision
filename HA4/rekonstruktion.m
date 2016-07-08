@@ -43,7 +43,7 @@ function [T,R, lambdas, P1] = rekonstruktion(T1,T2,R1,R2, Korrespondenzen, K)
               1,1,1,1           ,1];
           
     camCorners = K\camCorners;
-    camCorners2 = (R*camCorners + [T,T,T,T,T]);
+    camCorners2 = (inv(R)*camCorners - [T,T,T,T,T]);
     
     figure; 
     plotPoints(P1);
