@@ -3,9 +3,9 @@ function [ output_args ] = plotPoints( P1 )
 %   Detailed explanation goes here
 
     scatter3(P1(:,3), P1(:,1), P1(:,2) );
-    xlabel('x')
-    ylabel('y');
-    zlabel('z');
+    xlabel('z')
+    ylabel('x');
+    zlabel('y');
     set(gca,'ZDir','reverse');
     set(gca,'YDir','reverse');
     nKP= size(P1,1);
