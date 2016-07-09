@@ -1,5 +1,7 @@
-%  Gruppennummer:
-%  Gruppenmitglieder:
+% Gruppennummer: 15
+%  Gruppenmitglieder: Johannes Truong Le, Bernhard Birkner, Tuan Duong
+%  Quang, Sebastian Betz, Huaijiang Zhu
+
 
 %% Hausaufgabe 4
 %  Bestimmung von robusten Korrespondenzpunktpaaren mittels RANSAC und

@@ -1,6 +1,6 @@
 function [ M ] = calculateM1( x1, x2, T, R )
 %CALCULATEM Summary of this function goes here
-%   Detailed explanation goes here
+%   Berechne M für Lambda 1
     nKP = size(x1,2);
     M = zeros(3*nKP, nKP+1);
     

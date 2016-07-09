@@ -1,6 +1,6 @@
 function [ E, L ] = calcMElement(  x1, x2, T, R, modus )
 %CALCMELEMENT Summary of this function goes here
-%   Detailed explanation goes here
+%   Berechne das relevante Element in einer Reihe der M MAtrix
 
     x2Hat = [0,-x2(3),x2(2);x2(3),0,-x2(1);-x2(2),x2(1),0];
     x1Hat = [0,-x1(3),x1(2);x1(3),0,-x1(1);-x1(2),x1(1),0];

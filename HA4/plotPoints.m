@@ -1,7 +1,9 @@
 function [ output_args ] = plotPoints( P1 )
 %PLOTPOINTS Summary of this function goes here
-%   Detailed explanation goes here
+%   Plotte P1, Achsen werden so verdreht, dass der Plot realistisch
+%   ausschaut. Zusätzlich sind die Punkte numeriert.
 
+    
     scatter3(P1(:,3), P1(:,1), P1(:,2) );
     xlabel('z')
     ylabel('x');
